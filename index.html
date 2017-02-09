@@ -13,6 +13,9 @@
     body {
       background-color: #AAA;
     }
+    #score_txt, #time_left_txt {
+      display: none;
+    }
     </style>
   </head>
 
@@ -22,11 +25,13 @@
       <div class="sprite-flags-np" style="display:none;"></div>
 
       <div class="row">
-        <div class="col-12 text-center">
-          <button id="new_game" class="btn btn-primary">New game</button>
-        </div>
+        <div class="col-4"><button id="new_game" class="btn btn-primary">New game</button></div>
+        <div id="score_txt" class="col-4">Score: <span id="score"></span></div>
+        <div id="time_left_txt" class="col-4">Time: <span id="time_left"></span></div>
       </div>
-      <div id="controls"></div>
+      <div class="row">
+        <div class="col-12 text-center"><h1 id="country_name"></h1></div>
+      </div>
       <div id="game"></div>
     </div>
   </body>
@@ -86,7 +91,7 @@ var all_countries = [
 {"name": "Congo, The Democratic Republic of the", "code": "CD"},
 {"name": "Cook Islands", "code": "CK"},
 {"name": "Costa Rica", "code": "CR"},
-{"name": "Cote D\"Ivoire", "code": "CI"},
+{"name": "Cote D'Ivoire", "code": "CI"},
 {"name": "Croatia", "code": "HR"},
 {"name": "Cuba", "code": "CU"},
 {"name": "Cyprus", "code": "CY"},
@@ -283,7 +288,6 @@ var score = 0;
 var winning_country = {};
 var time_remaining = 50;
 var difficulty = 6;
-var flags_per_row = 2;
 var game_loop = null;
 
 // http://stackoverflow.com/questions/2450954/how-to-randomize-shuffle-a-javascript-array
@@ -344,21 +348,20 @@ var play = function() {
   clearInterval(game_loop);
   
   // Display controls
-  document.getElementById('controls').innerHTML = '<div class="row"><div class="col-2 lead">Score: <span id="score">' + score + '</span></div><div class="col-8 text-center"><h1 id="country_name"></h1></div><div class="col-2">Time left: <span id="time_left">' + time_remaining.toFixed(1) + '</span></div></div>';
+  document.getElementById('time_left_txt').style.display = 'block';
+  document.getElementById('time_left').innerHTML = time_remaining.toFixed(1);
+  document.getElementById('score_txt').style.display = 'block';
+  document.getElementById('score').innerHTML = score;
 
   // Display game
   document.getElementById('game').innerHTML = '';
-  var content = '';
-  for (var i = 1; i < difficulty; i += flags_per_row) {
-    content += '<div class="row">';
-    for (var j = 0; j < flags_per_row; ++j) {
-      content += '<div class="col-' + (12 / flags_per_row) + '" id="country' + (i + j) + '"></div>';
-    }
-    content += '</div>';
-  }
-  document.getElementById('controls').style.display = 'block';
-  document.getElementById('game').innerHTML = content;
   document.getElementById('game').style.display = 'block';
+  var content = '<div class="row">';
+  for (var i = 1; i <= difficulty; i += 1) {
+    content += '<div class="col-6 col-sm-4" id="country' + i + '"></div>';
+  }
+  content += '</div>';
+  document.getElementById('game').innerHTML = content;
 
   printCountries();
 
