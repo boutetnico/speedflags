@@ -5,16 +5,13 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <title>Spped flags</title>
+    <title>Speed flags</title>
 
     <link rel="stylesheet" href="assets/flags-normal.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
     <style>
     body {
       background-color: #AAA;
-    }
-    .col {
-      background-color: white;
     }
     </style>
   </head>
@@ -372,7 +369,7 @@ var play = function() {
       clearInterval(game_loop);
       document.getElementById('game').style.display = 'none';
     }
-    document.getElementById('time_left').innerHTML = time_remaining.toFixed(1);;
+    document.getElementById('time_left').innerHTML = time_remaining.toFixed(1);
   }, 100);
 };
 
