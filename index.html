@@ -7,7 +7,7 @@
 
     <title>Speed flags</title>
 
-    <link rel="stylesheet" href="assets/flags.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/2.8.0/css/flag-icon.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
     <style>
     body {
@@ -16,14 +16,15 @@
     #score_txt, #time_left_txt {
       display: none;
     }
+    .flag {
+      max-width: 100%;
+      padding-top: 10px;
+    }
     </style>
   </head>
 
   <body>
     <div class="container">
-      <!-- force loading css referenced sprites -->
-      <div class="sprite-flags-np" style="display:none;"></div>
-
       <div class="row">
         <div class="col-4"><button id="new_game" class="btn btn-primary">New game</button></div>
         <div id="score_txt" class="col-4">Score: <span id="score"></span></div>
@@ -194,7 +195,7 @@ var all_countries = [
 {"name": "Nauru", "code": "NR"},
 {"name": "Nepal", "code": "NP"},
 {"name": "Netherlands", "code": "NL"},
-{"name": "Netherlands Antilles", "code": "AN"},
+// {"name": "Netherlands Antilles", "code": "AN"}, // not on icon-flags-css
 {"name": "New Caledonia", "code": "NC"},
 {"name": "New Zealand", "code": "NZ"},
 {"name": "Nicaragua", "code": "NI"},
@@ -220,8 +221,8 @@ var all_countries = [
 {"name": "Qatar", "code": "QA"},
 // {"name": "Reunion", "code": "RE"},
 {"name": "Romania", "code": "RO"},
-{"name": "Russian Federation", "code": "RU"},
-{"name": "RWANDA", "code": "RW"},
+{"name": "Russia", "code": "RU"},
+{"name": "Rwanda", "code": "RW"},
 {"name": "Saint Helena", "code": "SH"},
 {"name": "Saint Kitts and Nevis", "code": "KN"},
 {"name": "Saint Lucia", "code": "LC"},
@@ -325,7 +326,7 @@ var printCountries = function() {
   shuffleArray(countries_choice);
 
   for (i = 0; i < countries_choice.length; ++i) {
-    document.getElementById('country' + (i + 1)).innerHTML = '<div id="' + countries_choice[i].code.toLowerCase() + '" onClick="check(this);" class="sprite-flags-' + countries_choice[i].code.toLowerCase() + '"></div>';
+    document.getElementById('country' + (i + 1)).innerHTML = '<img class="flag" id="' + countries_choice[i].code.toLowerCase() + '" onClick="check(this);" src="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/2.8.0/flags/4x3/' + countries_choice[i].code.toLowerCase() + '.svg">';
   }
   winning_country = countries_choice[Math.floor(Math.random() * countries_choice.length)];
   document.getElementById('country_name').innerHTML = winning_country.name;
@@ -379,6 +380,15 @@ var play = function() {
 var init = function() {
   score = 0;
   time_remaining = 0;
+
+  // Preload flags
+  for (var i = 0; i < all_countries.length; ++i) {
+    var img = new Image();
+    img.src = 'https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/2.8.0/flags/4x3/' + all_countries[i].code.toLowerCase() + '.svg';
+    document.getElementById('game').appendChild(img);
+    document.getElementById('game').removeChild(img);
+  }
+
   document.getElementById('new_game').addEventListener('click', function() {
     play();
   });
