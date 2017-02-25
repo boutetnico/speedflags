@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <title>Speed flags</title>
+    <title>Speed Flags</title>
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/2.8.0/css/flag-icon.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
@@ -13,28 +13,35 @@
     body {
       background-color: #AAA;
     }
-    #score_txt, #time_left_txt {
+    #status_bar {
       display: none;
     }
     .flag {
       max-width: 100%;
-      padding-top: 10px;
+      padding-bottom: 30px;
     }
     </style>
   </head>
 
   <body>
     <div class="container">
-      <div class="row">
-        <div class="col-4"><button id="new_game" class="btn btn-primary">New game</button></div>
-        <div id="score_txt" class="col-4">Score: <span id="score"></span></div>
-        <div id="time_left_txt" class="col-4">Time: <span id="time_left"></span></div>
+      <div class="row" id="status_bar">
+        <div class="col-6">
+          Time: <span id="time_left" class="font-weight-bold"></span>
+        </div>
+        <div class="col-6 text-right">
+          Score: <span id="score" class="font-weight-bold"></span>
+        </div>
       </div>
       <div class="row">
-        <div class="col-12 text-center"><h1 id="country_name"></h1></div>
+        <div class="col-12 text-center"><h3 id="country_name"></h3></div>
       </div>
       <div id="game"></div>
     </div>
+
+    <nav class="navbar fixed-bottom navbar-inverse bg-inverse">
+      <button id="new_game" class="btn btn-block btn-primary" type="button">New game</button>
+    </nav>
   </body>
 
 <script>
@@ -196,7 +203,7 @@ var all_countries = [
 {"name": "Nepal", "code": "NP"},
 {"name": "Netherlands", "code": "NL"},
 // {"name": "Netherlands Antilles", "code": "AN"}, // not on icon-flags-css
-{"name": "New Caledonia", "code": "NC"},
+// {"name": "New Caledonia", "code": "NC"},
 {"name": "New Zealand", "code": "NZ"},
 {"name": "Nicaragua", "code": "NI"},
 {"name": "Niger", "code": "NE"},
@@ -287,7 +294,7 @@ var all_countries = [
 ];
 var score = 0;
 var winning_country = {};
-var time_remaining = 50;
+var game_time = 50;
 var difficulty = 6;
 var game_loop = null;
 
@@ -345,18 +352,17 @@ var check = function(country) {
 
 var play = function() {
   score = 0;
-  time_remaining = 50;
+  var time_remaining = 50;
   clearInterval(game_loop);
   
   // Display controls
-  document.getElementById('time_left_txt').style.display = 'block';
+  document.getElementById('status_bar').style.display = 'flex';
   document.getElementById('time_left').innerHTML = time_remaining.toFixed(1);
-  document.getElementById('score_txt').style.display = 'block';
   document.getElementById('score').innerHTML = score;
 
   // Display game
   document.getElementById('game').innerHTML = '';
-  document.getElementById('game').style.display = 'block';
+  document.getElementById('game').style.display = 'flex';
   var content = '<div class="row">';
   for (var i = 1; i <= difficulty; i += 1) {
     content += '<div class="col-6 col-sm-4" id="country' + i + '"></div>';
@@ -366,9 +372,12 @@ var play = function() {
 
   printCountries();
 
+  var start_date = Date.now();
   game_loop = setInterval(function() {
+    var delta = Date.now() - start_date;
+
     if (time_remaining > 0) {
-      time_remaining -= 0.1;
+      time_remaining = game_time - delta / 1000;
     } else {
       clearInterval(game_loop);
       document.getElementById('game').style.display = 'none';
@@ -379,7 +388,6 @@ var play = function() {
 
 var init = function() {
   score = 0;
-  time_remaining = 0;
 
   // Preload flags
   for (var i = 0; i < all_countries.length; ++i) {
