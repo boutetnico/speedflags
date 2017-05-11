@@ -1,14 +1,14 @@
 # Speed flags
 
-(Quick demo access)[index.html).
+[Quick demo](https://boutetnico.github.io/speedflags/index.html).
 
 # Different versions
 
 The game exists with different implementations:
 
-- (ECMAScript 5)[index.html]
-- (ECMAScript 2015)[index_es2015.html]
-- (Vue.js)[index_vue.html]
+- [ECMAScript 5](https://boutetnico.github.io/speedflags/index.html)
+- [ECMAScript 2015](https://boutetnico.github.io/speedflags/index_es2015.html)
+- [Vue.js](https://boutetnico.github.io/speedflags/index_vue.html)
 
 ## License
 
