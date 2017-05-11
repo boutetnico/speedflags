@@ -1,8 +1,8 @@
 # Speed flags
 
-[Quick demo](https://boutetnico.github.io/speedflags/index.html).
+[Play the game](https://boutetnico.github.io/speedflags/index.html).
 
-# Different versions
+## Different implementations
 
 The game exists with different implementations:
 
