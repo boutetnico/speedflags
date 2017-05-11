@@ -236,7 +236,7 @@ var all_countries = [
 {"name": "Saint Helena", "code": "sh"},
 {"name": "Saint Kitts and Nevis", "code": "kn"},
 {"name": "Saint Lucia", "code": "lc"},
-{"name": "Saint Pierre and Miquelon", "code": "pm"},
+// {"name": "Saint Pierre and Miquelon", "code": "pm"},
 {"name": "Saint Vincent and the Grenadines", "code": "vc"},
 {"name": "Samoa", "code": "ws"},
 {"name": "San Marino", "code": "sm"},
@@ -301,17 +301,6 @@ var game_time = 50;
 var difficulty = 6;
 var game_loop = null;
 
-// http://stackoverflow.com/questions/2450954/how-to-randomize-shuffle-a-javascript-array
-function shuffleArray(array) {
-  for (var i = array.length - 1; i > 0; i--) {
-    var j = Math.floor(Math.random() * (i + 1));
-    var temp = array[i];
-    array[i] = array[j];
-    array[j] = temp;
-  }
-  return array;
-}
-
 String.prototype.replaceAll = function(search, replacement) {
   var target = this;
   return target.replace(new RegExp(search, 'g'), replacement);
@@ -333,8 +322,6 @@ var printCountries = function() {
     }
   }
 
-  shuffleArray(countries_choice);
-
   for (i = 0; i < countries_choice.length; ++i) {
     document.getElementById('country' + (i + 1)).innerHTML = '<img class="flag" id="' + countries_choice[i].code + '" onClick="check(this);" src="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/2.8.0/flags/4x3/' + countries_choice[i].code + '.svg">';
   }
@@ -355,7 +342,7 @@ var check = function(country) {
 
 var play = function() {
   score = 0;
-  var time_remaining = 50;
+  var time_remaining = game_time;
   clearInterval(game_loop);
   
   // Display controls
